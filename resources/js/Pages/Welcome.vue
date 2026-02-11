@@ -1,0 +1,215 @@
+<script setup>
+import { Head, Link } from '@inertiajs/vue3';
+import FloatingLines from '../Components/FloatingLines.vue';
+
+defineProps({
+  canLogin: Boolean,
+  canRegister: Boolean,
+});
+</script>
+
+<template>
+  <Head title="CSE Project Builder & Viva Prep" />
+  
+  <div class="font-sans text-slate-900 bg-white selection:bg-amber-400 selection:text-white">
+    
+    <!-- Section 1: White Hero (BeInternet3 Style) -->
+    <div class="relative w-full min-h-[90vh] flex flex-col items-center justify-center px-6 text-center bg-white overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-30">
+            <div class="absolute -top-[20%] -right-[10%] w-[60vw] h-[60vw] bg-gradient-to-br from-amber-100 to-pink-50 rounded-full blur-3xl opacity-60"></div>
+            <div class="absolute top-[40%] -left-[10%] w-[40vw] h-[40vw] bg-gradient-to-tr from-blue-50 to-purple-50 rounded-full blur-3xl opacity-60"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto">
+            <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-slate-200 bg-slate-50 text-slate-600 text-sm font-semibold tracking-wide uppercase shadow-sm">
+                The Ultimate Tool for CSE Students
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter text-slate-900 mb-8 leading-[1.1]">
+                Build Projects. <br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-pink-500">Ace Your Viva.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto mb-10 font-medium leading-relaxed">
+                Get customized university projects, understand every module, and prepare for your viva with structured Q&A and diagrams.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                    v-if="$page.props.auth?.user"
+                    :href="route('dashboard')"
+                    class="px-10 py-5 rounded-full bg-slate-900 text-white text-lg font-bold shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                >
+                    Go to Dashboard
+                </Link>
+                <template v-else>
+                    <Link
+                        :href="route('register')"
+                        class="px-10 py-5 rounded-full bg-slate-900 text-white text-lg font-bold shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                    >
+                        Get Started
+                    </Link>
+                    <Link
+                        :href="route('login')"
+                        class="px-10 py-5 rounded-full bg-white text-slate-900 border-2 border-slate-200 text-lg font-bold hover:border-slate-900 transition-all duration-300"
+                    >
+                        Log In
+                    </Link>
+                </template>
+            </div>
+            
+            <div class="mt-16 flex items-center justify-center gap-8 text-slate-400 grayscale opacity-60">
+               <!-- Placeholder Logos -->
+               <div class="font-bold text-xl">LARAVEL</div>
+               <div class="font-bold text-xl">VUE.JS</div>
+               <div class="font-bold text-xl">TAILWIND</div>
+               <div class="font-bold text-xl">INERTIA</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Dark Floating Lines -->
+    <div class="relative w-full h-screen bg-slate-950 overflow-hidden text-white flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+             <FloatingLines
+                :enabled-waves="['top', 'middle', 'bottom']"
+                :line-count="[10, 15, 20]"
+                :line-distance="[8, 6, 4]"
+                :bend-radius="5.0"
+                :bend-strength="-0.5"
+                :interactive="true"
+                :parallax="true"
+              />
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-4xl">
+            <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">Experience the Flow</h2>
+            <p class="text-lg md:text-xl text-slate-300 leading-relaxed">
+                Our platform provides a seamless, immersive environment for managing your engineering projects. 
+                Interact with the background to see how responsive our technology is.
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 3: Our Works (Gallery) -->
+    <div class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-4">Our Latest Works</h2>
+                <p class="text-lg text-slate-600">Explore some of the projects generated by our students.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Gallery Item 1 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 1" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h3 class="text-xl font-bold text-white">E-Commerce Platform</h3>
+                        <p class="text-slate-300 text-sm">Full-stack Laravel & Vue application</p>
+                    </div>
+                </div>
+                 <!-- Gallery Item 2 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 2" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h3 class="text-xl font-bold text-white">AI Code Assistant</h3>
+                        <p class="text-slate-300 text-sm">Python & TensorFlow integration</p>
+                    </div>
+                </div>
+                 <!-- Gallery Item 3 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 3" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h3 class="text-xl font-bold text-white">Algorithm Visualizer</h3>
+                        <p class="text-slate-300 text-sm">Interactive React application</p>
+                    </div>
+                </div>
+                 <!-- Gallery Item 4 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 4" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h3 class="text-xl font-bold text-white">Portfolio Generator</h3>
+                        <p class="text-slate-300 text-sm">Static site generator with Vue</p>
+                    </div>
+                </div>
+                 <!-- Gallery Item 5 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 5" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h3 class="text-xl font-bold text-white">Data Analytics Dashboard</h3>
+                        <p class="text-slate-300 text-sm">D3.js & Node.js backend</p>
+                    </div>
+                </div>
+                 <!-- Gallery Item 6 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 6" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h3 class="text-xl font-bold text-white">Mobile Banking App</h3>
+                        <p class="text-slate-300 text-sm">Flutter & Firebase</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Project Ideas -->
+    <div class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+             <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-4">Project Ideas</h2>
+                <p class="text-lg text-slate-600">Need inspiration? Check out these trending topics.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-3xl bg-amber-50 border border-amber-100 hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-14 h-14 bg-amber-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6">🤖</div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">AI & Machine Learning</h3>
+                    <ul class="space-y-3 text-slate-700">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-400"></span>Traffic Sign Recognition</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-400"></span>Stock Price Prediction</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-400"></span>Chatbot for Healthcare</li>
+                    </ul>
+                </div>
+
+                 <div class="p-8 rounded-3xl bg-pink-50 border border-pink-100 hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-14 h-14 bg-pink-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6">🔒</div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Cybersecurity</h3>
+                    <ul class="space-y-3 text-slate-700">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-pink-400"></span>Encrypted Chat App</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-pink-400"></span>Phishing Detection Tool</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-pink-400"></span>Network Packet Sniffer</li>
+                    </ul>
+                </div>
+
+                 <div class="p-8 rounded-3xl bg-blue-50 border border-blue-100 hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-14 h-14 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6">🌐</div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Web & Mobile</h3>
+                    <ul class="space-y-3 text-slate-700">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span>Smart Home Controller</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span>E-Learning Platform</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span>Food Delivery System</li>
+                    </ul>
+                </div>
+            </div>
+            
+             <div class="mt-12 text-center">
+                <Link :href="route('templates.index')" class="inline-flex items-center justify-center px-8 py-3 text-base font-bold text-amber-500 border-2 border-amber-100 rounded-full hover:bg-amber-50 hover:border-amber-200 transition-colors">
+                    View All Project Templates
+                </Link>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm">
+                &copy; {{ new Date().getFullYear() }} CSE Project Builder. All rights reserved.
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+  </div>
+</template>
