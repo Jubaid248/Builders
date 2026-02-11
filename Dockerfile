@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     build-essential \
     python3 \
-    && docker-php-ext-install pdo_pgsqlYz zip bcmath intl
+    && docker-php-ext-install pdo_pgsql zip bcmath intl
 
 # 2. Enable Apache mod_rewrite
 RUN a2enmod rewrite
