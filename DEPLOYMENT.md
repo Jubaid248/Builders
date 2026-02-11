@@ -147,7 +147,40 @@ Or register a new user and set `is_admin = 1` in the database.
 
 ---
 
-## Step 4: CI/CD (auto-deploy on push)
+## Step 4: Deploy with Docker (New & Recommended)
+
+Since you have a `Dockerfile` and `docker-compose.yml` optimized for this app, you can deploy easily to any VPS or platform that supports Docker.
+
+### 4.1 Build and Run locally
+```bash
+# Build the image
+docker build -t project-builder .
+
+# Run the container
+docker run -p 8080:80 \
+  -e APP_KEY=$(php artisan key:generate --show) \
+  -e APP_ENV=production \
+  -e APP_DEBUG=false \
+  project-builder
+```
+
+### 4.2 Use Docker Compose
+```bash
+# Build and start services
+docker-compose up -d --build
+
+# Run migrations inside the container
+docker-compose exec app php artisan migrate --force
+```
+
+### 4.3 Deployment Platforms (Docker)
+- **Railway:** Will automatically detect the `Dockerfile` and deploy.
+- **Render:** Choose "Web Service" -> "Docker" and it will build and deploy.
+- **DigitalOcean / AWS:** Use `docker-compose` on a VPS.
+
+---
+
+## Step 5: CI/CD (auto-deploy on push)
 
 - **Railway / Render:** Both auto-deploy on push to the connected branch (e.g. `main`).
 - **GitHub Actions (optional):** Add a workflow that runs `composer install`, `npm ci`, `npm run build`, and optionally runs tests; deployment itself is still done by Railway/Render.

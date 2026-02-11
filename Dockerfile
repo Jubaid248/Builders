@@ -35,7 +35,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # 7. Install Node dependencies (only requires package*.json)
 COPY package.json package-lock.json ./
 # npm ci is faster and reliable for CI; || cat ... prints logs on failure
-RUN npm ci || (cat /root/.npm/_logs/*-debug.log && exit 1)
+RUN npm ci --legacy-peer-deps || (cat /root/.npm/_logs/*-debug.log && exit 1)
 
 # --- Application Layer ---
 
