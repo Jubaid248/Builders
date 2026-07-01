@@ -1,14 +1,12 @@
 <script setup>
 defineProps({
-    message: {
-        type: String,
-    },
+    message: { type: String },
 });
 </script>
 
 <template>
     <div v-show="message">
-        <p class="text-sm text-red-600">
+        <p class="mt-1.5 text-sm font-medium text-red-400">
             {{ message }}
         </p>
     </div>

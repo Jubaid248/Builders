@@ -7,14 +7,8 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    email: {
-        type: String,
-        required: true,
-    },
-    token: {
-        type: String,
-        required: true,
-    },
+    email: { type: String, required: true },
+    token: { type: String, required: true },
 });
 
 const form = useForm({
@@ -25,77 +19,31 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('password.store'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+    form.post(route('password.store'), { onFinish: () => form.reset('password', 'password_confirmation') });
 };
 </script>
 
 <template>
     <GuestLayout>
         <Head title="Reset Password" />
-
-        <form @submit.prevent="submit">
+        <h2 class="vc-auth-form-title">Set new password</h2>
+        <form @submit.prevent="submit" class="mt-8 space-y-5">
             <div>
                 <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+                <TextInput id="email" v-model="form.email" type="email" required autofocus autocomplete="username" />
+                <InputError :message="form.errors.email" />
             </div>
-
-            <div class="mt-4">
+            <div>
                 <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
+                <TextInput id="password" v-model="form.password" type="password" required autocomplete="new-password" />
+                <InputError :message="form.errors.password" />
             </div>
-
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
+            <div>
+                <InputLabel for="password_confirmation" value="Confirm password" />
+                <TextInput id="password_confirmation" v-model="form.password_confirmation" type="password" required autocomplete="new-password" />
+                <InputError :message="form.errors.password_confirmation" />
             </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Reset Password
-                </PrimaryButton>
-            </div>
+            <PrimaryButton :disabled="form.processing">Reset password</PrimaryButton>
         </form>
     </GuestLayout>
 </template>

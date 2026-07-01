@@ -22,15 +22,27 @@ class OrdersTable
                     ->searchable(),
                 TextColumn::make('project_type')
                     ->searchable(),
-                TextColumn::make('tech_stack_preference')
+                TextColumn::make('package')
+                    ->searchable(),
+                TextColumn::make('budget_range')
                     ->searchable(),
                 TextColumn::make('deadline')
                     ->date()
                     ->sortable(),
-                TextColumn::make('complexity')
-                    ->searchable(),
                 TextColumn::make('status')
                     ->searchable(),
+                TextColumn::make('payment_status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'unpaid' => 'danger',
+                        'deposit_paid' => 'warning',
+                        'fully_paid' => 'success',
+                        default => 'gray',
+                    })
+                    ->searchable(),
+                TextColumn::make('total_amount')
+                    ->money('BDT')
+                    ->sortable(),
                 TextColumn::make('delivered_at')
                     ->dateTime()
                     ->sortable(),

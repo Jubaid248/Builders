@@ -9,6 +9,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 class OrderForm
@@ -29,19 +30,37 @@ class OrderForm
                     ->maxLength(255),
                 Textarea::make('description')
                     ->columnSpanFull(),
+                TextInput::make('whatsapp_number')
+                    ->tel()
+                    ->maxLength(20),
                 Select::make('project_type')
-                    ->options(ProjectTemplate::projectTypes())
+                    ->options(Order::projectTypes())
                     ->required(),
-                TextInput::make('tech_stack_preference')
-                    ->placeholder('e.g. Laravel, Vue, MySQL'),
                 DatePicker::make('deadline'),
-                Select::make('complexity')
-                    ->options(ProjectTemplate::complexityLevels())
-                    ->default('medium'),
+                DatePicker::make('viva_date'),
+                Select::make('budget_range')
+                    ->options(Order::budgetRanges()),
+                Select::make('package')
+                    ->options(Order::packages()),
+                Toggle::make('portfolio_permission'),
+                TextInput::make('referred_by')
+                    ->maxLength(255),
+                Textarea::make('additional_notes')
+                    ->columnSpanFull(),
                 Select::make('status')
                     ->options(Order::statuses())
                     ->required()
                     ->default('pending'),
+                Select::make('payment_status')
+                    ->options(Order::paymentStatuses())
+                    ->required()
+                    ->default('unpaid'),
+                TextInput::make('deposit_amount')
+                    ->numeric()
+                    ->prefix('৳'),
+                TextInput::make('total_amount')
+                    ->numeric()
+                    ->prefix('৳'),
                 Textarea::make('admin_notes')
                     ->columnSpanFull(),
                 DateTimePicker::make('delivered_at'),

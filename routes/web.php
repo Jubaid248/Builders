@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderFeedbackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectTemplateController;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/{order}/deliverables/{deliverable}/download', [OrderController::class, 'download'])
         ->name('orders.deliverables.download');
+    Route::get('/orders/{order}/feedback', [OrderFeedbackController::class, 'create'])->name('orders.feedback.create');
+    Route::post('/orders/{order}/feedback', [OrderFeedbackController::class, 'store'])->name('orders.feedback.store');
 });
 
 Route::middleware('auth')->group(function () {

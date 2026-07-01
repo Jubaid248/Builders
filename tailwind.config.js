@@ -13,7 +13,23 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
+                display: ['Syne', ...defaultTheme.fontFamily.sans],
+                mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
+            },
+            colors: {
+                vc: {
+                    midnight: '#0A0E1A',
+                    ink: '#121828',
+                    surface: '#161C2D',
+                    elevated: '#1C2438',
+                    saffron: '#F5A623',
+                    teal: '#2DD4BF',
+                    violet: '#7C3AED',
+                    parchment: '#F0EBE3',
+                    muted: '#A8A29E',
+                    subtle: '#6B7280',
+                },
             },
         },
     },

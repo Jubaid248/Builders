@@ -27,15 +27,14 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $templates = ProjectTemplate::where('is_active', true)->get();
-        $projectTypes = ProjectTemplate::projectTypes();
-        $complexityLevels = ProjectTemplate::complexityLevels();
         $templateId = $request->integer('template_id', 0);
         $selectedTemplate = $templateId ? ProjectTemplate::find($templateId) : null;
 
         return Inertia::render('Orders/Create', [
             'templates' => $templates,
-            'projectTypes' => $projectTypes,
-            'complexityLevels' => $complexityLevels,
+            'projectTypes' => Order::projectTypes(),
+            'budgetRanges' => Order::budgetRanges(),
+            'packages' => Order::packages(),
             'selectedTemplate' => $selectedTemplate,
         ]);
     }
@@ -46,14 +45,21 @@ class OrderController extends Controller
             'project_template_id' => 'nullable|exists:project_templates,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'project_type' => 'required|in:web,ml,iot,desktop',
-            'tech_stack_preference' => 'nullable|string|max:500',
+            'whatsapp_number' => 'required|string|max:20',
+            'project_type' => 'required|in:web,research,english_writing',
             'deadline' => 'nullable|date',
-            'complexity' => 'required|in:low,medium,high',
+            'viva_date' => 'nullable|date',
+            'budget_range' => 'required|in:under_1000,1000_2500,2500_5000,above_5000',
+            'package' => 'required|in:basic,standard,premium',
+            'portfolio_permission' => 'boolean',
+            'referred_by' => 'nullable|string|max:255',
+            'additional_notes' => 'nullable|string|max:2000',
         ]);
 
         $validated['user_id'] = $request->user()->id;
         $validated['status'] = 'pending';
+        $validated['payment_status'] = 'unpaid';
+        $validated['portfolio_permission'] = $request->boolean('portfolio_permission');
 
         Order::create($validated);
 
@@ -71,6 +77,7 @@ class OrderController extends Controller
             'deliverables',
             'learningMaterial',
             'vivaQuestions' => fn ($q) => $q->orderBy('sort_order'),
+            'feedback',
         ]);
 
         return Inertia::render('Orders/Show', [

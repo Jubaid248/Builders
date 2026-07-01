@@ -1,68 +1,55 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Beams from '@/Components/Backgrounds/Beams.vue';
+import ScrollReveal from '@/Components/ScrollReveal.vue';
 
 defineProps({
   templates: Array,
 });
+
+const typeAccent = {
+  web: 'text-vc-saffron ring-vc-saffron/25 bg-vc-saffron/10',
+  research: 'text-vc-teal ring-vc-teal/25 bg-vc-teal/10',
+  english_writing: 'text-vc-violet ring-vc-violet/25 bg-vc-violet/10',
+  ml: 'text-vc-teal ring-vc-teal/25 bg-vc-teal/10',
+  iot: 'text-vc-violet ring-vc-violet/25 bg-vc-violet/10',
+  desktop: 'text-vc-saffron ring-vc-saffron/25 bg-vc-saffron/10',
+};
 </script>
 
 <template>
   <Head title="Project Templates" />
   <AuthenticatedLayout>
     <template #header>
-      <h1 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-        Project Templates
-      </h1>
-    </template>
-    <Beams class="absolute inset-0 z-0 opacity-50" />
-    <div class="relative z-10 py-6">
-      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="mb-6 flex items-center justify-between">
-          <p class="text-gray-600 dark:text-gray-400">
-            Choose a template to start your order or submit custom requirements.
-          </p>
-          <Link
-            :href="route('orders.create')"
-            class="rounded-lg bg-amber-500 px-4 py-2 font-medium text-gray-900 hover:bg-amber-400"
-          >
-            Order Custom Project
-          </Link>
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="vc-eyebrow">Library</p>
+          <h1 class="vc-page-title">Project templates</h1>
+          <p class="vc-page-sub">Pick a starting point or submit a fully custom brief.</p>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div
-            v-for="t in templates"
-            :key="t.id"
-            class="rounded-xl border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
-          >
-            <span class="inline-block rounded bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900 dark:text-amber-200">
-              {{ t.project_type }}
-            </span>
-            <h2 class="mt-2 text-lg font-semibold text-gray-900 dark:text-white">
-              {{ t.title }}
-            </h2>
-            <p class="mt-2 line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
-              {{ t.description }}
-            </p>
-            <p class="mt-2 text-xs text-gray-500">
-              Complexity: {{ t.complexity }}
-            </p>
-            <Link
-              :href="route('orders.create', { template_id: t.id })"
-              class="mt-4 inline-block text-sm font-medium text-amber-600 hover:text-amber-500"
-            >
-              Use this template →
-            </Link>
-          </div>
-        </div>
-        <div v-if="!templates?.length" class="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-gray-800">
-          <p class="text-gray-500 dark:text-gray-400">No templates available yet.</p>
-          <Link :href="route('orders.create')" class="mt-4 inline-block text-amber-600 hover:underline">
-            Order a custom project
-          </Link>
-        </div>
+        <Link :href="route('orders.create')" class="vc-btn-primary shrink-0">Custom order</Link>
       </div>
+    </template>
+
+    <div v-if="templates?.length" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <ScrollReveal v-for="(t, i) in templates" :key="t.id" :delay="(i % 3) * 80" direction="up">
+        <article class="vc-card vc-card-hover flex h-full flex-col p-6">
+          <span class="vc-badge w-fit capitalize ring-1" :class="typeAccent[t.project_type] || typeAccent.web">
+            {{ t.project_type?.replace('_', ' ') }}
+          </span>
+          <h2 class="font-display mt-4 text-xl font-bold">{{ t.title }}</h2>
+          <p class="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-vc-muted">{{ t.description }}</p>
+          <Link :href="route('orders.create', { template_id: t.id })" class="vc-link mt-5 inline-flex items-center gap-1">
+            Use this template <span>→</span>
+          </Link>
+        </article>
+      </ScrollReveal>
+    </div>
+
+    <div v-else class="vc-empty">
+      <p class="font-display text-lg font-bold text-vc-parchment">No templates yet</p>
+      <p class="mt-2 text-sm">Submit a custom order and we'll build from your brief.</p>
+      <Link :href="route('orders.create')" class="vc-btn-primary mt-6 inline-flex">Order custom project</Link>
     </div>
   </AuthenticatedLayout>
 </template>

@@ -9,7 +9,8 @@ import TextInput from '@/Components/TextInput.vue';
 const props = defineProps({
   templates: Array,
   projectTypes: Object,
-  complexityLevels: Object,
+  budgetRanges: Object,
+  packages: Object,
   selectedTemplate: Object,
 });
 
@@ -17,10 +18,15 @@ const form = useForm({
   project_template_id: props.selectedTemplate?.id ?? null,
   title: props.selectedTemplate?.title ?? '',
   description: props.selectedTemplate?.description ?? '',
+  whatsapp_number: '',
   project_type: props.selectedTemplate?.project_type ?? 'web',
-  tech_stack_preference: Array.isArray(props.selectedTemplate?.tech_stack) ? props.selectedTemplate.tech_stack.join(', ') : (props.selectedTemplate?.tech_stack ?? ''),
   deadline: '',
-  complexity: props.selectedTemplate?.complexity ?? 'medium',
+  viva_date: '',
+  budget_range: '',
+  package: 'standard',
+  portfolio_permission: false,
+  referred_by: '',
+  additional_notes: '',
 });
 
 const submit = () => form.post(route('orders.store'));
@@ -30,90 +36,93 @@ const submit = () => form.post(route('orders.store'));
   <Head title="Order Project" />
   <AuthenticatedLayout>
     <template #header>
-      <h1 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-        Order a Project
-      </h1>
+      <p class="vc-eyebrow">New order</p>
+      <h1 class="vc-page-title">Order a project</h1>
+      <p class="vc-page-sub">Tell us what you need — we'll match you with a student builder.</p>
     </template>
-    <div class="py-6">
-      <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-        <form @submit.prevent="submit" class="space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
-          <div>
-            <InputLabel for="title" value="Project title *" />
-            <TextInput
-              id="title"
-              v-model="form.title"
-              type="text"
-              class="mt-1 block w-full"
-              required
-            />
-            <InputError :message="form.errors.title" class="mt-1" />
-          </div>
-          <div>
-            <InputLabel for="description" value="Description / requirements" />
-            <textarea
-              id="description"
-              v-model="form.description"
-              rows="4"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            />
-            <InputError :message="form.errors.description" class="mt-1" />
-          </div>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div>
-              <InputLabel for="project_type" value="Project type *" />
-              <select
-                id="project_type"
-                v-model="form.project_type"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              >
-                <option v-for="(label, key) in projectTypes" :key="key" :value="key">{{ label }}</option>
-              </select>
-              <InputError :message="form.errors.project_type" class="mt-1" />
-            </div>
-            <div>
-              <InputLabel for="complexity" value="Complexity *" />
-              <select
-                id="complexity"
-                v-model="form.complexity"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              >
-                <option v-for="(label, key) in complexityLevels" :key="key" :value="key">{{ label }}</option>
-              </select>
-              <InputError :message="form.errors.complexity" class="mt-1" />
-            </div>
-          </div>
-          <div>
-            <InputLabel for="tech_stack_preference" value="Preferred tech stack" />
-            <TextInput
-              id="tech_stack_preference"
-              v-model="form.tech_stack_preference"
-              type="text"
-              class="mt-1 block w-full"
-              placeholder="e.g. Laravel, Vue, MySQL"
-            />
-            <InputError :message="form.errors.tech_stack_preference" class="mt-1" />
-          </div>
-          <div>
-            <InputLabel for="deadline" value="Deadline (optional)" />
-            <TextInput
-              id="deadline"
-              v-model="form.deadline"
-              type="date"
-              class="mt-1 block w-full"
-            />
-            <InputError :message="form.errors.deadline" class="mt-1" />
-          </div>
-          <div class="flex justify-end gap-3">
-            <Link
-              :href="route('orders.index')"
-              class="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-            >
-              Cancel
-            </Link>
-            <PrimaryButton :disabled="form.processing">Submit Order</PrimaryButton>
-          </div>
-        </form>
+
+    <form @submit.prevent="submit" class="vc-panel mx-auto max-w-3xl space-y-6">
+      <div>
+        <InputLabel for="title" value="Project title *" />
+        <TextInput id="title" v-model="form.title" type="text" required />
+        <InputError :message="form.errors.title" />
       </div>
-    </div>
+
+      <div>
+        <InputLabel for="description" value="Description / requirements" />
+        <textarea id="description" v-model="form.description" rows="4" class="vc-textarea" />
+        <InputError :message="form.errors.description" />
+      </div>
+
+      <div>
+        <InputLabel for="whatsapp_number" value="WhatsApp number *" />
+        <TextInput id="whatsapp_number" v-model="form.whatsapp_number" type="text" placeholder="e.g. 01XXXXXXXXX" required />
+        <InputError :message="form.errors.whatsapp_number" />
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <InputLabel for="project_type" value="Project type *" />
+          <select id="project_type" v-model="form.project_type" class="vc-select">
+            <option v-for="(label, key) in projectTypes" :key="key" :value="key">{{ label }}</option>
+          </select>
+          <InputError :message="form.errors.project_type" />
+        </div>
+        <div>
+          <InputLabel for="package" value="Package *" />
+          <select id="package" v-model="form.package" class="vc-select">
+            <option v-for="(label, key) in packages" :key="key" :value="key">{{ label }}</option>
+          </select>
+          <InputError :message="form.errors.package" />
+        </div>
+      </div>
+
+      <div>
+        <InputLabel for="budget_range" value="Budget range *" />
+        <select id="budget_range" v-model="form.budget_range" class="vc-select" required>
+          <option value="" disabled>Select a budget range</option>
+          <option v-for="(label, key) in budgetRanges" :key="key" :value="key">{{ label }}</option>
+        </select>
+        <InputError :message="form.errors.budget_range" />
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <InputLabel for="deadline" value="Deadline (optional)" />
+          <TextInput id="deadline" v-model="form.deadline" type="date" />
+          <InputError :message="form.errors.deadline" />
+        </div>
+        <div>
+          <InputLabel for="viva_date" value="Do you have a viva or presentation date?" />
+          <TextInput id="viva_date" v-model="form.viva_date" type="date" />
+          <InputError :message="form.errors.viva_date" />
+        </div>
+      </div>
+
+      <div>
+        <InputLabel for="additional_notes" value="Additional notes" />
+        <textarea id="additional_notes" v-model="form.additional_notes" rows="3" class="vc-textarea" placeholder="Extra details, preferences, or requirements…" />
+        <InputError :message="form.errors.additional_notes" />
+      </div>
+
+      <div>
+        <InputLabel for="referred_by" value="Were you referred by someone? Enter their name" />
+        <TextInput id="referred_by" v-model="form.referred_by" type="text" />
+        <InputError :message="form.errors.referred_by" />
+      </div>
+
+      <div class="flex items-start gap-3 rounded-xl border border-white/6 bg-vc-elevated/50 p-4">
+        <input id="portfolio_permission" v-model="form.portfolio_permission" type="checkbox" class="vc-checkbox mt-0.5" />
+        <label for="portfolio_permission" class="text-sm leading-relaxed text-vc-muted">
+          I allow VivaCraft to feature this project anonymously
+        </label>
+      </div>
+      <InputError :message="form.errors.portfolio_permission" />
+
+      <div class="flex justify-end gap-3 border-t border-white/6 pt-6">
+        <Link :href="route('orders.index')" class="vc-btn-ghost">Cancel</Link>
+        <PrimaryButton :disabled="form.processing">Submit order</PrimaryButton>
+      </div>
+    </form>
   </AuthenticatedLayout>
 </template>

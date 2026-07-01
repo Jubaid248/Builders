@@ -1,8 +1,355 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: 'Raleway', sans-serif;
+:root {
+    --vc-midnight: #0A0E1A;
+    --vc-ink: #121828;
+    --vc-surface: #161C2D;
+    --vc-elevated: #1C2438;
+    --vc-saffron: #F5A623;
+    --vc-saffron-dim: #C4841C;
+    --vc-teal: #2DD4BF;
+    --vc-violet: #7C3AED;
+    --vc-parchment: #F0EBE3;
+    --vc-muted: rgba(240, 235, 227, 0.62);
+    --vc-subtle: rgba(240, 235, 227, 0.38);
+    --vc-border: rgba(255, 255, 255, 0.08);
+    --vc-border-hover: rgba(245, 166, 35, 0.35);
+}
+
+@layer base {
+    body {
+        font-family: 'DM Sans', system-ui, sans-serif;
+        background: var(--vc-midnight);
+        color: var(--vc-parchment);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+        background: rgba(245, 166, 35, 0.35);
+        color: var(--vc-parchment);
+    }
+}
+
+@layer components {
+    .font-display {
+        font-family: 'Syne', system-ui, sans-serif;
+    }
+
+    .font-mono-vc {
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── Layout ── */
+    .vc-glass {
+        background: rgba(10, 14, 26, 0.78);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--vc-border);
+    }
+
+    .vc-ambient {
+        position: relative;
+        background: var(--vc-midnight);
+    }
+
+    .vc-ambient::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+            radial-gradient(ellipse 70% 50% at 10% -5%, rgba(245, 166, 35, 0.09), transparent 55%),
+            radial-gradient(ellipse 55% 45% at 95% 15%, rgba(45, 212, 191, 0.07), transparent 50%),
+            radial-gradient(ellipse 40% 35% at 50% 100%, rgba(124, 58, 237, 0.06), transparent 55%);
+        animation: vc-ambient-drift 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes vc-ambient-drift {
+        0% { opacity: 0.85; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1.04); }
+    }
+
+    /* ── Cards & panels ── */
+    .vc-card {
+        border-radius: 1rem;
+        border: 1px solid var(--vc-border);
+        background: linear-gradient(155deg, rgba(28, 36, 56, 0.92), rgba(18, 24, 40, 0.96));
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .vc-card-hover {
+        transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.25s ease, box-shadow 0.35s ease;
+    }
+
+    .vc-card-hover:hover {
+        transform: translateY(-4px);
+        border-color: var(--vc-border-hover);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.35),
+            0 0 0 1px rgba(245, 166, 35, 0.08);
+    }
+
+    .vc-panel {
+        border-radius: 1rem;
+        border: 1px solid var(--vc-border);
+        background: linear-gradient(155deg, rgba(28, 36, 56, 0.92), rgba(18, 24, 40, 0.96));
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        padding: 1.5rem;
+    }
+
+    /* ── Typography helpers ── */
+    .vc-eyebrow {
+        @apply font-mono-vc text-xs uppercase tracking-[0.2em] text-vc-saffron;
+    }
+
+    .vc-page-title {
+        @apply font-display text-3xl font-extrabold tracking-tight text-vc-parchment;
+    }
+
+    .vc-page-sub {
+        @apply mt-1 text-sm text-vc-muted;
+    }
+
+    .vc-headline-accent {
+        background: linear-gradient(135deg, #F5A623 0%, #2DD4BF 45%, #A78BFA 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* ── Form controls ── */
+    .vc-label {
+        @apply block text-sm font-semibold text-vc-parchment;
+    }
+
+    .vc-input,
+    .vc-select,
+    .vc-textarea {
+        @apply mt-1.5 block w-full rounded-xl border bg-vc-elevated px-4 py-2.5 text-sm text-vc-parchment shadow-inner transition duration-200;
+        border-color: var(--vc-border);
+    }
+
+    .vc-input::placeholder,
+    .vc-textarea::placeholder {
+        color: var(--vc-subtle);
+    }
+
+    .vc-input:focus,
+    .vc-select:focus,
+    .vc-textarea:focus {
+        outline: none;
+        border-color: rgba(245, 166, 35, 0.55);
+        box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12);
+    }
+
+    .vc-select {
+        @apply cursor-pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23F0EBE3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1rem;
+        padding-right: 2.5rem;
+    }
+
+    .vc-textarea {
+        @apply resize-y min-h-[5rem];
+    }
+
+    .vc-checkbox {
+        @apply h-4 w-4 rounded border bg-vc-elevated text-vc-saffron;
+        border-color: var(--vc-border);
+    }
+
+    .vc-checkbox:focus {
+        box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
+    }
+
+    /* ── Buttons ── */
+    .vc-btn-primary {
+        @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl px-5 py-2.5 text-sm font-bold transition duration-200;
+        background: linear-gradient(135deg, #F5A623 0%, #E8871E 100%);
+        color: #0A0E1A;
+    }
+
+    .vc-btn-primary::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+        transform: translateX(-100%);
+        transition: transform 0.55s ease;
+    }
+
+    a.vc-btn-primary,
+    a.vc-btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .vc-btn-primary:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 28px rgba(245, 166, 35, 0.35);
+    }
+
+    .vc-btn-primary:hover:not(:disabled)::after {
+        transform: translateX(100%);
+    }
+
+    .vc-btn-primary:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .vc-btn-ghost {
+        @apply inline-flex items-center justify-center rounded-xl border px-5 py-2.5 text-sm font-semibold transition duration-200;
+        border-color: rgba(240, 235, 227, 0.18);
+        color: var(--vc-parchment);
+    }
+
+    .vc-btn-ghost:hover {
+        border-color: rgba(245, 166, 35, 0.45);
+        background: rgba(245, 166, 35, 0.06);
+    }
+
+    .vc-btn-danger {
+        @apply inline-flex items-center justify-center rounded-xl border px-5 py-2.5 text-sm font-semibold transition duration-200;
+        border-color: rgba(248, 113, 113, 0.35);
+        color: #FCA5A5;
+        background: rgba(248, 113, 113, 0.08);
+    }
+
+    .vc-btn-danger:hover {
+        background: rgba(248, 113, 113, 0.15);
+    }
+
+    /* ── Nav (sidebar) ── */
+    .vc-nav-link {
+        @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition duration-200;
+        color: var(--vc-muted);
+    }
+
+    .vc-nav-link:hover {
+        color: var(--vc-parchment);
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .vc-nav-link--active {
+        color: var(--vc-saffron);
+        background: rgba(245, 166, 35, 0.1);
+        box-shadow: inset 3px 0 0 var(--vc-saffron);
+    }
+
+    .vc-nav-section {
+        @apply px-3 py-2 font-mono-vc text-[10px] uppercase tracking-[0.18em];
+        color: var(--vc-subtle);
+    }
+
+    /* ── Badges ── */
+    .vc-badge {
+        @apply inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize;
+    }
+
+    .vc-badge-pending { @apply bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/25; }
+    .vc-badge-approved { @apply bg-sky-500/15 text-sky-300 ring-1 ring-sky-500/25; }
+    .vc-badge-rejected { @apply bg-red-500/15 text-red-300 ring-1 ring-red-500/25; }
+    .vc-badge-in_progress { @apply bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/25; }
+    .vc-badge-delivered { @apply bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/25; }
+    .vc-badge-unpaid { @apply bg-red-500/15 text-red-300 ring-1 ring-red-500/25; }
+    .vc-badge-deposit_paid { @apply bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/25; }
+    .vc-badge-fully_paid { @apply bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/25; }
+
+    /* ── Table ── */
+    .vc-table-wrap {
+        @apply vc-card overflow-hidden;
+    }
+
+    .vc-table {
+        @apply min-w-full text-sm;
+    }
+
+    .vc-table thead {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .vc-table th {
+        @apply px-4 py-3 text-left font-mono-vc text-[10px] uppercase tracking-wider;
+        color: var(--vc-subtle);
+    }
+
+    .vc-table td {
+        @apply px-4 py-3.5;
+        color: var(--vc-parchment);
+        border-top: 1px solid var(--vc-border);
+    }
+
+    .vc-table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+    .vc-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* ── 3D tilt (marketing) ── */
+    .vc-tilt-card {
+        transform-style: preserve-3d;
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+    }
+
+    .vc-tilt-card:hover {
+        transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+        box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 166, 35, 0.15);
+    }
+
+    .vc-process-line {
+        background: linear-gradient(90deg, transparent, rgba(245, 166, 35, 0.4), transparent);
+        height: 1px;
+    }
+
+    /* ── Auth layout panel ── */
+    .vc-auth-brand {
+        @apply font-display text-4xl font-extrabold tracking-tight text-vc-parchment;
+    }
+
+    .vc-auth-form-title {
+        @apply font-display text-2xl font-bold text-vc-parchment;
+    }
+
+    .vc-link {
+        @apply text-sm font-medium text-vc-teal transition hover:text-vc-saffron;
+    }
+
+    .vc-empty {
+        @apply vc-card border-dashed p-12 text-center;
+        border-color: rgba(255, 255, 255, 0.1);
+        color: var(--vc-muted);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vc-ambient::before {
+        animation: none;
+    }
+
+    .vc-tilt-card:hover,
+    .vc-card-hover:hover,
+    .vc-btn-primary:hover:not(:disabled) {
+        transform: none;
+    }
+
+    .vc-btn-primary::after {
+        display: none;
+    }
 }

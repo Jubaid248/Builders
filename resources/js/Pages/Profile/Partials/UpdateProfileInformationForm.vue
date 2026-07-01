@@ -25,13 +25,8 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                Profile Information
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
-            </p>
+            <h2 class="font-display text-lg font-bold text-vc-parchment">Profile information</h2>
+            <p class="mt-1 text-sm text-vc-muted">Update your name and email address.</p>
         </header>
 
         <form
@@ -70,23 +65,12 @@ const form = useForm({
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800">
+                <p class="mt-2 text-sm text-vc-muted">
                     Your email address is unverified.
-                    <Link
-                        :href="route('verification.send')"
-                        method="post"
-                        as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Click here to re-send the verification email.
-                    </Link>
+                    <Link :href="route('verification.send')" method="post" as="button" class="vc-link">Resend verification email</Link>
                 </p>
-
-                <div
-                    v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
-                >
-                    A new verification link has been sent to your email address.
+                <div v-show="status === 'verification-link-sent'" class="mt-2 text-sm font-medium text-emerald-300">
+                    A new verification link has been sent.
                 </div>
             </div>
 
@@ -99,12 +83,7 @@ const form = useForm({
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
-                    </p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-vc-teal">Saved.</p>
                 </Transition>
             </div>
         </form>
