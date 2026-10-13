@@ -1,59 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# VivaCraft
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Student-built projects, prepared for the viva.** VivaCraft is a project-service platform concept that connects clients with student developers and pairs project delivery with clear learning materials and viva preparation.
 
-## About Laravel
+## What it includes
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Project request and order workflows
+- Student-facing project delivery and learning materials
+- Viva questions and explanations to help clients understand their work
+- Admin tools built with Filament
+- A responsive web interface built with Laravel, Inertia.js, and Vue
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The exact services and enabled workflows depend on the current application configuration.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technology
 
-## Learning Laravel
+- PHP 8.2+ and Laravel
+- Vue 3 and Inertia.js
+- Filament admin panel
+- Vite and Tailwind CSS
+- MySQL or another Laravel-supported database
+- Docker configuration for containerized development/deployment
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2 or later with the extensions required by Laravel
+- Composer
+- Node.js and npm
+- A configured database
 
-## Laravel Sponsors
+## Local setup
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+From the repository root:
 
-### Premium Partners
+```bash
+composer install
+npm install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Create a local environment file:
 
-## Contributing
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+On Windows PowerShell, use:
 
-## Code of Conduct
+```powershell
+Copy-Item .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Set the database connection in `.env`, then run the migrations and available seeders:
 
-## Security Vulnerabilities
+```bash
+php artisan migrate --seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Build frontend assets and start the development services:
+
+```bash
+npm run build
+composer run dev
+```
+
+The development script starts Laravel, the queue listener, logs, and Vite. Open the local URL printed by Laravel in the terminal. For a single frontend process, use `npm run dev` in a separate terminal.
+
+## Tests
+
+```bash
+php artisan test
+```
+
+## Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the current deployment notes. Review all environment variables, database settings, mail/queue configuration, and administrator access before deploying a public instance. Never commit `.env` or production credentials.
+
+## Repository guide
+
+- `app/` — application logic and Filament resources
+- `resources/` — Vue pages, components, and templates
+- `routes/` — HTTP routes
+- `database/` — migrations, factories, and seeders
+- `docs/` — supporting project documentation
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+See the repository's `LICENSE` file, if present.
